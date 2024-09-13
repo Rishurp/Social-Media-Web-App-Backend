@@ -1,0 +1,25 @@
+const express = require("express");
+const routes = require("./routes/v1");
+const { errorHandler } = require("./middlewares/error");
+const ApiError = require("./utils/ApiError");
+const cors = require("cors");
+const app = express();
+// parse json request body
+app.use(express.json());
+
+// enable cors
+app.use(cors());
+app.options("*", cors());
+
+// parse urlencoded request body
+app.use(express.urlencoded({ extended: true }));
+
+app.use("/v1", routes);
+app.use(errorHandler);
+
+// send back a 404 error for any unknown api request
+app.use((req, res, next) => {
+  next(new ApiError(404, "I got you"));
+});
+
+module.exports = app;
