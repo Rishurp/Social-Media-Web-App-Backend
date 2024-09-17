@@ -9,7 +9,7 @@ const getUser = async (id) => {
 };
 
 const getUserByName = async (username) => {
-  let user = await User.findOne({ name: username });
+  let user = await User.find({ name: username });
   console.log(username);
   console.log(user);
   return user;
